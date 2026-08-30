@@ -1,0 +1,20 @@
+.box{
+  display: flex;
+  gap: 80px;
+}
+
+h1{
+  margin-left: 18px;
+}
+.box2{
+  display: flex;
+  gap: 14px;
+}
+
+button{
+  background-color: black;
+  color: white;
+  padding: 6px;
+  border-radius: 8px;
+  width: 90px;
+}
