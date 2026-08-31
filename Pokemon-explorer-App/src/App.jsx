@@ -8,6 +8,7 @@ const App = () => {
   const [search, setsearch] = useState("")
   const [pokemonList, setPokemonList] = useState([])
   const [offset, setoffset] = useState(0)
+  const [searchResults, setSearchResults] = useState([])
 
   const formhandle = (e)=>{
     e.preventDefault()
@@ -17,28 +18,40 @@ const App = () => {
   const getData = async ()=>{
    const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=12&offset=${offset}`)
    setdata(response.data.results)
-   console.log(data); 
   }
 
   const getPokemonList =  async ()=>{
     const response2 = await axios.get("https://pokeapi.co/api/v2/pokemon?limit=1025")
     setPokemonList(response2.data.results) 
-    console.log(pokemonList);
-     
+    
   }
 
    useEffect(()=>{
     getData()
-    getPokemonList()
    },[offset])
 
-   const prevbtn = ()=>{
-    setoffset(offset - 12)
-   }
+   useEffect(()=>{
+    getPokemonList()
+   }, [])
 
-   const nextBtn = ()=>{
-    setoffset(offset + 12)
-   }
+   useEffect(()=>{
+    const pokemonName = pokemonList.find((e)=> 
+      e.name == search
+    )
+   }, [search])
+
+
+   useEffect(()=>{
+    const result = pokemonList.filter((pokemon)=>
+      pokemon.name.includes(search.toLowerCase())
+    
+  )
+  setSearchResults(result)
+  console.log(searchResults);
+   }, [search])
+
+   console.log(search);
+   
 
   return (
     <div>
@@ -48,18 +61,29 @@ const App = () => {
     onSubmit={function onSubmit(e){
           formhandle(e)
     }} >
-      <input type="text" placeholder="Search Pokemon..." 
+      <div className="relative ">
+         <input type="text" placeholder="Search Pokemon..." 
       className="w-160 border border-[#1C334B] bg-[#0B2420] rounded-2xl py-2 px-6 
       placeholder-[#6F8981] focus:border-[#39D98A] outline-0 focus:ring-1.5 focus:ring[#39D98A]/20 "
       value={search}
       onChange={(e)=>{
           setsearch(e.target.value)
       }}/>
-      <button className="border-red-800 border-2"
-     onClick={getData}
-     >Get Data</button>
-    </form>
 
+       <div  className={`absolute top-full left-0 w-full h-120 overflow-auto rounded-xl border border-green-400/30
+       bg-[#064e3b] sladow-lg flex flex-col gap-2 mt-4  ${search==="" ? "hidden" : ""}`}>
+        {searchResults.map((pokemon)=>{
+
+          return(
+            <div className="px-4 py-2 cursor-pointer rounded-2xl hover:bg-[#08644b]">
+              {pokemon.name}
+            </div>
+          )
+        })}
+        </div>
+      </div>
+      
+    </form>
       <div >
     <div className=" flex flex-wrap justify-center gap-4 py-6 px-4">
       {data.map((elem, idx)=>{
@@ -67,7 +91,7 @@ const App = () => {
        let id = elem.url.split("/")[6] 
       
           return (
-            <div className="cards border border-[#1C334B] rounded-2xl p-4 ">
+            <div key={idx} className="cards border border-[#1C334B] rounded-2xl p-4 ">
           <div className="image">
             <img className="w-56 h-60" src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`} alt="" />
           </div>
@@ -86,12 +110,16 @@ const App = () => {
         transition enabled:hover:border-[#39D98A] enabled:hover:text-[#5EF2AB]
         active:scale-90
         disabled:cursor-not-allowed disabled:opacity-50 "
-        onClick={prevbtn}    > 
-        Prev</button>
+        onClick={function prevbtn(){
+          setoffset(offset - 12)
+        }} > Prev</button>
+
         <button className="py-2 px-6 rounded-xl text-[#91ADA4] text-2xl border
         border-[#1C443B] bg-[#102E29] transition hover:border-[#39D98A] hover:text-[#5EF2AB]"
-        onClick={nextBtn}
-        > Next</button>
+        onClick={function nextBtn(){
+           setoffset(offset + 12)
+        }} > Next</button>
+
       </div>
     </div>
 
