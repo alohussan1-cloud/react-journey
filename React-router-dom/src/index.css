@@ -1,0 +1,18 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+nav{
+  display: flex;
+  justify-content: center;
+  padding-left: 300px;
+  gap: 50px;
+  font-size: xx-large;
+  background-color: aqua;
+  padding: 20px;
+}
+
+a{
+  text-decoration: NONE;
+}
