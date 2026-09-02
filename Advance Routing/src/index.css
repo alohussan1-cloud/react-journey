@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+body{
+    color: white;
+}
+
+h1{
+    text-decoration: underline;
+}
