@@ -11,8 +11,10 @@ const App = () => {
   const [pokemonList, setPokemonList] = useState([])
   const [offset, setoffset] = useState(0)
   const [searchResults, setSearchResults] = useState([])
-  const [pokemonObject, setpokemonObject] = useState([])
-  const [pokemonData, setpokemonData] = useState([])
+  const [pokemonObject, setpokemonObject] = useState(null)
+  const [pokemonData, setpokemonData] = useState(null)
+  const [pokemonId, setpokemonId] = useState("")
+
 
   const formhandle = (e)=>{
     e.preventDefault()
@@ -49,10 +51,9 @@ const App = () => {
    }, [search])
 
  const getPokemonData = async ()=>{
+  if(!pokemonObject) return
   const pokemonResponse = await axios.get(pokemonObject.url)
   setpokemonData(pokemonResponse.data)
-  console.log(pokemonData);
-  
  }
  
  useEffect(()=>{
@@ -97,9 +98,9 @@ const App = () => {
     </form>
       <div >
 
-        <PokemonCard pokemonData= {pokemonData} />
+      {pokemonData ? <PokemonCard pokemonData= {pokemonData} setpokemonData= {setpokemonData} /> 
+        : <PokeHomePage  data={data}/>  } 
 
-      <PokeHomePage  data={data} />
       <div className="btns flex gap-16 justify-center p-6">
         <button disabled={ offset == 0} 
         className=" py-2 px-6 rounded-xl text-[#91ADA4] text-2xl border border-[#1C443B] bg-[#102E29] 
