@@ -1,6 +1,5 @@
 
 const PokemonCard = ({pokemonData, setpokemonData}) => {
-    console.log(pokemonData);
     
     return (
         pokemonData ?
