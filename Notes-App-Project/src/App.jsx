@@ -76,7 +76,8 @@ const App = () => {
                 Capture your thoughts, tasks and reminders.
               </p>
 
-              <input type="text" placeholder="Title..." className="w-full border border-slate-200 rounded-lg px-4 py-4 
+              <input type="text" placeholder="Title..." name="title"
+              className="w-full border border-slate-200 rounded-lg px-4 py-4 
               outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition"
               value={title}
               onChange={(e)=>{
@@ -85,7 +86,8 @@ const App = () => {
 
               {titleErr && <p className="text-red-600 ml-2 text-lg" >{titleErr}</p> }
 
-              <textarea placeholder="Description..." className="w-full border border-slate-200 rounded-lg px-4 py-4 
+              <textarea placeholder="Description..." name="description"
+               className="w-full border border-slate-200 rounded-lg px-4 py-4 
               outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition mt-4"
               value={descrip}
               onChange={(e)=>{
@@ -148,3 +150,4 @@ const App = () => {
 };
 
 export default App;
+
